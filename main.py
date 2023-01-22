@@ -17,6 +17,8 @@ class InterFace:
         """ Initialize Default database"""
         self.database = DatabaseModel()
         self.list_of_db = [self.database]
+        print('Welcome to in memory database')
+        print('database in use : ' + str(self.database))
 
     @staticmethod
     def clean_terminal():
@@ -28,7 +30,8 @@ class InterFace:
             print("Invalid command")
             return
         try:
-            self.database.set_data(key=command[1], value=json.loads(command[2]))
+            self.database.set_data(
+                key=command[1], value=json.loads(command[2]))
         except json.decoder.JSONDecodeError:
             print('your value is not valid')
             return
@@ -144,45 +147,48 @@ class InterFace:
         print('>', *args)
 
     def main(self):
-        print('Welcome to in memory database')
-        print('database in use : ' + str(self.database))
-        while True:
-            action = input().split()
+        action = input().split()
 
-            if action[0] != '#':
-                print("Invalid command! your command must be start with #")
+        if action[0] != '#':
+            print("Invalid command! your command must be start with #")
 
-            elif action == ['#', 'set', 'key', 'value']:
-                self._set()
+        elif action == ['#', 'set', 'key', 'value']:
+            self._set()
 
-            elif action == ['#', 'get', 'key']:
-                self._get()
+        elif action == ['#', 'get', 'key']:
+            self._get()
 
-            elif action == ['#', 'del', 'key']:
-                self._del()
+        elif action == ['#', 'del', 'key']:
+            self._del()
 
-            elif action == ['#', 'keys', 'regex']:
-                self._get_by_regex()
+        elif action == ['#', 'keys', 'regex']:
+            self._get_by_regex()
 
-            elif action == ['#', 'use', 'db_name']:
-                self._change_db()
+        elif action == ['#', 'use', 'db_name']:
+            self._change_db()
 
-            elif action == ['#', 'list']:
-                self._show_list_of_db()
+        elif action == ['#', 'list']:
+            self._show_list_of_db()
 
-            elif action == ['#', 'dump', 'db_name', 'path']:
-                self._dump_db()
+        elif action == ['#', 'dump', 'db_name', 'path']:
+            self._dump_db()
 
-            elif action == ['#', 'load', 'path', 'db_name']:
-                self._load_db()
+        elif action == ['#', 'load', 'path', 'db_name']:
+            self._load_db()
 
-            elif action == ['#', 'exit']:
-                break
+        elif action == ['#', 'exit']:
+            exit(0)
+        else:
+            print('Invalid command!')
 
-            else:
-                print('Invalid command!')
+        self.main()
 
 
 if __name__ == "__main__":
     interface = InterFace()
-    interface.main()
+    try:
+        interface.main()
+    except KeyboardInterrupt:
+        print("BY 👋")
+    finally:
+        pass
